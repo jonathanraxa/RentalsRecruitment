@@ -5,17 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Property Calculator</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
   </head>
   <body>
 <div class="container">
@@ -29,13 +30,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Property Calculator</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <!-- <li class="active"><a href="#">About</a></li> -->
+             <li><a href="#about">About</a></li>
+        <!--    <li><a href="#contact">Contact</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -45,7 +46,7 @@
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">Nav header</li>
                 <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
+                <li><a href="#">One more separated link</a></li> -->
               </ul>
             </li>
           </ul>
@@ -59,52 +60,146 @@
     </nav>
 
 
-    <div class="row">
-    <div class="col-lg-4">
-					</div>
-        <form role="form">
-                    
-            <div class="col-lg-4">
-                <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong></div>
-                <div class="form-group">
-                    <label for="InputName">Enter Property Name</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Enter Name" required>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="InputEmail">Enter # of bedrooms</label>
-                    <div class="input-group">
-                        <input type="email" class="form-control" id="InputEmailFirst" name="InputEmail" placeholder="Enter Email" required>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="InputEmail">Enter # of bathrooms</label>
-                    <div class="input-group">
-                        <input type="email" class="form-control" id="InputEmailSecond" name="InputEmail" placeholder="Confirm Email" required>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="InputMessage">Enter Message</label>
-                    <div class="input-group">
-                        <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required></textarea>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                </div>
-                <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">
-            </div>
-        </form>
-        <div class="col-lg-4">
-           
+    <div class="row" style="margin-top:100px;">
+<form id="bookForm" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-xs-1 control-label">Property</label>
+        <div class="col-xs-4">
+            <input type="text" class="form-control" name="book[0].title" placeholder="Title" />
+        </div>
+        <div class="col-xs-4">
+            <input type="text" class="form-control" name="book[0].isbn" placeholder="ISBN" />
+        </div>
+        <div class="col-xs-2">
+            <input type="text" class="form-control" name="book[0].price" placeholder="Price" />
+        </div>
+        <div class="col-xs-1">
+            <button type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
         </div>
     </div>
+
+    <!-- The template for adding new field -->
+    <div class="form-group hide" id="bookTemplate">
+        <div class="col-xs-4 col-xs-offset-1">
+            <input type="text" class="form-control" name="title" placeholder="Title" />
+        </div>
+        <div class="col-xs-4">
+            <input type="text" class="form-control" name="isbn" placeholder="ISBN" />
+        </div>
+        <div class="col-xs-2">
+            <input type="text" class="form-control" name="price" placeholder="Price" />
+        </div>
+        <div class="col-xs-1">
+            <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-5 col-xs-offset-1">
+            <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </div>
+</form>
+
+
 </div>
+
+
+    </div>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script>
+$(document).ready(function() {
+    var titleValidators = {
+            row: '.col-xs-4',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The title is required'
+                }
+            }
+        },
+        isbnValidators = {
+            row: '.col-xs-4',
+            validators: {
+                notEmpty: {
+                    message: 'The ISBN is required'
+                },
+                isbn: {
+                    message: 'The ISBN is not valid'
+                }
+            }
+        },
+        priceValidators = {
+            row: '.col-xs-2',
+            validators: {
+                notEmpty: {
+                    message: 'The price is required'
+                },
+                numeric: {
+                    message: 'The price must be a numeric number'
+                }
+            }
+        },
+        bookIndex = 0;
+
+    $('#bookForm')
+        // .formValidation({
+        //     framework: 'bootstrap',
+        //     icon: {
+        //         valid: 'glyphicon glyphicon-ok',
+        //         invalid: 'glyphicon glyphicon-remove',
+        //         validating: 'glyphicon glyphicon-refresh'
+        //     },
+        //     fields: {
+        //         'book[0].title': titleValidators,
+        //         'book[0].isbn': isbnValidators,
+        //         'book[0].price': priceValidators
+        //     }
+        // })
+
+        // Add button click handler
+        .on('click', '.addButton', function() {
+            bookIndex++;
+            var $template = $('#bookTemplate'),
+                $clone    = $template
+                                .clone()
+                                .removeClass('hide')
+                                .removeAttr('id')
+                                .attr('data-book-index', bookIndex)
+                                .insertBefore($template);
+
+            // Update the name attributes
+            $clone
+                .find('[name="title"]').attr('name', 'book[' + bookIndex + '].title').end()
+                .find('[name="isbn"]').attr('name', 'book[' + bookIndex + '].isbn').end()
+                .find('[name="price"]').attr('name', 'book[' + bookIndex + '].price').end();
+
+            // Add new fields
+            // Note that we also pass the validator rules for new field as the third parameter
+            $('#bookForm')
+                .formValidation('addField', 'book[' + bookIndex + '].title', titleValidators)
+                .formValidation('addField', 'book[' + bookIndex + '].isbn', isbnValidators)
+                .formValidation('addField', 'book[' + bookIndex + '].price', priceValidators);
+        })
+
+        // Remove button click handler
+        .on('click', '.removeButton', function() {
+            var $row  = $(this).parents('.form-group'),
+                index = $row.attr('data-book-index');
+
+            // Remove fields
+            $('#bookForm')
+                .formValidation('removeField', $row.find('[name="book[' + index + '].title"]'))
+                .formValidation('removeField', $row.find('[name="book[' + index + '].isbn"]'))
+                .formValidation('removeField', $row.find('[name="book[' + index + '].price"]'));
+
+            // Remove element containing the fields
+            $row.remove();
+        });
+});
+</script>
   </body>
 </html>
