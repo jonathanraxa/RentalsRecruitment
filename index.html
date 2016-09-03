@@ -16,21 +16,28 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+<style type="text/css">
+	.prices{
+		font-size: 20px;
+	    font-weight: bold;
+	    color: #c78d04;
+	}
 
+</style>
     <!-- Custom JS -->
 	
 <!-- <script src="./papaparse.min.js"></script> --> 
 <!-- <script src="js/cvs_parser.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="js/results_retriever.js"></script>
+
 
 <script src="PapaParse-4.1.2/papaparse.min.js"></script>
 <script>
 
 $(document).ready(function(){
-
     $("#csv-file").change(handleFileSelect);
 });
-
 
   var data;
   var price = [];
@@ -56,71 +63,131 @@ $(document).ready(function(){
                 
         // console.log(data); 
         var data_size = data.data.length;
-
         var i;
-
         for(i = 0; i < data_size; i++){
         	price[i] 	 = data.data[i].price;
         	bathrooms[i] = data.data[i].bathrooms;
         	bedrooms[i]  = data.data[i].bedrooms;
-        	square_ft[i] = data.data[i]['square-foot']; // learned something new here
-
+        	square_ft[i] = data.data[i]['square-foot'];
         }
-        findMedian();
+        setStandard();
+        displayPropertyPrice();
       }
     });
   }
 
- // displaying values for checking if everything is good
-  function findMedian(){
+	// Determines the price of a home given user inputs
+	// http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_form_elements_index
+	$("#addNewReq").click(function(){
+		var a = document.getElementById("bookForm").elements.namedItem("name").value;
+		document.getElementById("demo1").innerHTML = a;
 
-  	 price.sort(function(a, b){return a-b});
-  	 bathrooms.sort(function(a, b){return a-b});
-  	 bedrooms.sort(function(a, b){return a-b});
-  	 square_ft.sort(function(a, b){return a-b});
+		var b = document.getElementById("bookForm").elements.namedItem("bedrooms").value;
+		document.getElementById("demo2").innerHTML = b;
 
-  	 // set the standards!
-  	 price_standard     = median(price);
-  	 bedrooms_standard  = median(bedrooms);
-  	 bathroom_standard  = median(bathrooms);
-  	 square_ft_standard = median(square_ft);
+		var c = document.getElementById("bookForm").elements.namedItem("bathrooms").value;
+		document.getElementById("demo3").innerHTML = c;
+
+		var d = document.getElementById("bookForm").elements.namedItem("squarefeet").value;
+	    document.getElementById("demo4").innerHTML = d;
+
+		console.log("PRICE: " 	    + price_standard);
+		console.log("BEDROOMS: "    + bedrooms_standard);
+		console.log("BATHROOMS: "   + bathroom_standard);
+		console.log("SQUARE-FOOT: " + square_ft_standard);	   
+
+		var userPropNoPrice = propertyBedBathPerSqCalc(parseInt(b),parseInt(c),parseInt(d));
+
+		console.log(userPropNoPrice);
+
+		var userPropWithPrice = propertyPriceCalculation(price_standard,
+													  bedrooms_standard,
+													  bathroom_standard, 
+													  square_ft_standard,
+													  userPropNoPrice);
+
+		document.getElementById("demo5").innerHTML = Math.round(userPropWithPrice);
+
+		$('#myModal').modal('show');
+	});
+
+	// SORTS THE ARRAY AND GETS THE MEDIAN
+	function getStandard(){
+
+	  	 price.sort(function(a, b){return a-b});
+	  	 bathrooms.sort(function(a, b){return a-b});
+	  	 bedrooms.sort(function(a, b){return a-b});
+	  	 square_ft.sort(function(a, b){return a-b});
+
+	  	 // set the standards!
+	  	 price_standard     = median(price);
+	  	 bedrooms_standard  = median(bedrooms);
+	  	 bathroom_standard  = median(bathrooms);
+	  	 square_ft_standard = median(square_ft);
+
+	  	 return [price_standard, bedrooms_standard,bathroom_standard,square_ft_standard];
+
+	}
+
+	// TAKES THE DATA AND SETS A STANDARD FOR THE ALGORITHM TO USE
+	function setStandard(){
+		var data = getStandard();
+		price_standard = data[0];
+		bedrooms_standard = data[1];
+		bathroom_standard = data[2];
+		square_ft_standard = data[3];
+	}
+
+  // DISPLAY GIVEN ARGUMENT VALUES
+  function displayPropertyPrice(){
 
   	 // debugging - to DELETE
- 	 console.log("PRICE: " 	     + price_standard);
-  	 console.log("BEDROOMS: "    + bedrooms_standard);
-  	 console.log("BATHROOMS: "   + bathroom_standard);
-  	 console.log("SQUARE-FOOT: " + square_ft_standard);
+ 	 // console.log("PRICE: " 	     + price_standard);
+  	 // console.log("BEDROOMS: "    + bedrooms_standard);
+  	 // console.log("BATHROOMS: "   + bathroom_standard);
+  	 // console.log("SQUARE-FOOT: " + square_ft_standard);
+
+  	 var propertyValNoPrice1 = propertyBedBathPerSqCalc(2,2,1250);
+  	 var property_price1 = propertyPriceCalculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice1);
+  	 $( "#price1" ).append("$" + Math.round(property_price1) );
 
 
-  	 propertyPriceCalculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard);
+  	 var propertyValNoPrice2 = propertyBedBathPerSqCalc(1,1,750);
+  	 var property_price2 = propertyPriceCalculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice2);
+  	 $( "#price2" ).append("$" + Math.round(property_price2) );
+
+  	 
+ 	 var propertyValNoPrice3 = propertyBedBathPerSqCalc(3,1,1500);
+  	 var property_price3 = propertyPriceCalculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice3);
+  	 $( "#price3" ).append("$" + Math.round(property_price3) );
+
+ 	 var propertyValNoPrice4 = propertyBedBathPerSqCalc(4,2,2250);
+  	 var property_price4 = propertyPriceCalculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice4);
+  	 $( "#price4" ).append("$" + Math.round(property_price4) );
+
+
 
   };
 
-  function propertyPriceCalculation(price,bed,bath,sq){
-  	console.log(price);
-  	console.log(bed);
-  	console.log(bath);
-  	console.log(sq);
+  // DETERMINES SET RATIO TO USE FOR ALGORITHM
+  function propertyBedBathPerSqCalc(bed,bath,sq)
+  {
 
+  	return  sq/[bed + bath];
+  };
+
+  // ALGORITHM TO COMPUTE PRICE GIVEN BED/BATH/SQ-FT
+  function propertyPriceCalculation(price,bed,bath,sq,otherProp)
+  {
   	// add bathroom and bedrooms
+  	// divide the square-feet by # of ba/br total
+  	var bed_bath_sq_total = sq/[bed + bath];
 
+  	// calculate ratio b*x = a*c
+  	var determined_price = [price*otherProp]/bed_bath_sq_total;
 
-  	// divide the square-feet by # of ba/br
-
-
-  	// calculate ratio
-
-
-  }
-
-  // adds values to HTML
-  function addToHtml(price1, price2, price3, price4){
-  	$( "#price1" ).append("$" + price1 );
-  	$( "#price2" ).append("$" + price2 );
-  	$( "#price3" ).append("$" + price3 );
-  	$( "#price4" ).append("$" + price4 );
-
-  }
+  	return determined_price;
+  };
 
 /* Didn't want to reinvent the wheel!
    CODE Snippet taken from: https://gist.github.com/caseyjustus/1166258 
@@ -178,35 +245,36 @@ function median(values) {
 
 	<i>PRICING</i> determined by property calculation with 1000 properties <br>
 	<br />
-		<p><strong>Casa Maria</strong> - 2bd, 2ba, 1250 square feet: PRICE --&gt; 		 <span id="price1"></span></p>
-		<p><strong>Westwood Towers</strong> - Studio, 1ba, 750 square feet: PRICE --&gt; <span id="price2"></span></p>
-		<p><strong>Bella Fortuna</strong> - 3bd, 1ba, 1500 square feet: PRICE --&gt; 	 <span id="price3"></span></p>
-		<p><strong>Palace Apartments</strong> - 4bd, 2ba, 2250 square feet: PRICE --&gt; <span id="price4"></span></p>
+		<p><strong>Casa Maria</strong> - 2bd, 2ba, 1250 square feet: PRICE --&gt; 		 <span class="prices" id="price1"></span></p>
+		<p><strong>Westwood Towers</strong> - Studio, 1ba, 750 square feet: PRICE --&gt; <span class="prices" id="price2"></span></p>
+		<p><strong>Bella Fortuna</strong> - 3bd, 1ba, 1500 square feet: PRICE --&gt; 	 <span class="prices" id="price3"></span></p>
+		<p><strong>Palace Apartments</strong> - 4bd, 2ba, 2250 square feet: PRICE --&gt; <span class="prices" id="price4"></span></p>
+
+		<br />
+		<br />
+
+		<div>
+    		<input type="file" id="csv-file" name="files"/>
+    	</div>
 	</div>		
 	
-
-	<br />
-	<br />
-
-	<div>
-    	<input type="file" id="csv-file" name="files"/>
-    </div>
+	
 
 
 <form id="bookForm" method="post" class="form-horizontal">
     <div class="form-group">
 
         <div class="col-xs-3 col-xs-offset-1">
-            <input type="text" class="form-control" name="book[0].title" placeholder="Property Name (optional)" />
+            <input type="text" class="form-control" name="name" placeholder="Property Name (optional)" />
         </div>
         <div class="col-xs-2">
-            <input type="text" class="form-control" name="book[0].isbn" placeholder="# of bedrooms" />
+            <input type="number" class="form-control" name="bedrooms" placeholder="# of bedrooms" />
         </div>
         <div class="col-xs-2">
-            <input type="text" class="form-control" name="book[0].isbn" placeholder="# of bathrooms" />
+            <input type="number" class="form-control" name="bathrooms" placeholder="# of bathrooms" />
         </div>
         <div class="col-xs-2">
-            <input type="text" class="form-control" name="book[0].price" placeholder="Price" />
+            <input type="number" class="form-control" name="squarefeet" placeholder="# Square ft" />
         </div>
 
         <div class="col-xs-2">
@@ -216,24 +284,24 @@ function median(values) {
     </div>
 
     <!-- The template for adding new field -->
-    <div class="form-group hide" id="bookTemplate">
+<!--     <div class="form-group hide" id="bookTemplate">
         <div class="col-xs-3 col-xs-offset-1">
-            <input type="text" class="form-control" name="title" placeholder="Property Name (optional)" />
+            <input type="text" class="form-control" name="name" id="name" placeholder="Property Name (optional)" />
         </div>
         <div class="col-xs-2">
-            <input type="text" class="form-control" name="isbn" placeholder="# of bedrooms" />
+            <input type="text" class="form-control" name="bedrooms" placeholder="# of bedrooms" />
         </div>
         <div class="col-xs-2">
-            <input type="text" class="form-control" name="isbn" placeholder="# of bathrooms" />
+            <input type="text" class="form-control" name="bathrooms" placeholder="# of bathrooms" />
         </div>
         <div class="col-xs-2">
-            <input type="text" class="form-control" name="price" placeholder="Price" />
+            <input type="text" class="form-control" name="squarefeet" placeholder="# Sqaure ft" />
         </div>
 
         <div class="col-xs-1">
             <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
         </div>
-    </div>
+    </div> -->
 
     <div class="form-group">
         <div class="col-xs-5 col-xs-offset-1">
@@ -248,6 +316,9 @@ function median(values) {
 
     </div>
 
+
+
+
 <!-- RESULTS Modal -->
  <div class="modal fade" id="results" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
     <div class="modal-dialog">
@@ -259,7 +330,12 @@ function median(values) {
             <div class="modal-body">
                 <h3>Property Name</h3>
                 <span>Priced Recommenedation:</span><span><strong>$1,000</strong></span>
-
+					<!-- DISPLAY OF RESULTS -->
+					    <div id="demo1"></div>
+					    <div id="demo2"></div>
+					    <div id="demo3"></div>
+					    <div id="demo4"></div>
+					    <div id="demo5"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -279,9 +355,7 @@ function median(values) {
             <h4 class="modal-title" id="myModalLabel">Property Pricing</h4>
             </div>
             <div class="modal-body">
-                <h3>Property Name</h3>
-                <span>Priced Recommenedation:</span><span><strong>$1,000</strong></span>
-
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
