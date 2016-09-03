@@ -22,6 +22,13 @@
 	    font-weight: bold;
 	    color: #c78d04;
 	}
+	.user_results{
+		font-weight: bold;
+	    color: #c78d04;
+	}
+	.results{
+		visibility:hidden;
+	}
 
 </style>
     <!-- Custom JS -->
@@ -76,20 +83,19 @@ $(document).ready(function(){
     });
   }
 
-	// Determines the price of a home given user inputs
-	// http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_form_elements_index
-	$("#addNewReq").click(function(){
+  function gofunction(){
+
 		var a = document.getElementById("bookForm").elements.namedItem("name").value;
-		document.getElementById("demo1").innerHTML = a;
+		document.getElementById("property").innerHTML = a;
 
 		var b = document.getElementById("bookForm").elements.namedItem("bedrooms").value;
-		document.getElementById("demo2").innerHTML = b;
+		document.getElementById("bedrooms").innerHTML = b;
 
 		var c = document.getElementById("bookForm").elements.namedItem("bathrooms").value;
-		document.getElementById("demo3").innerHTML = c;
+		document.getElementById("bathrooms").innerHTML = c;
 
 		var d = document.getElementById("bookForm").elements.namedItem("squarefeet").value;
-	    document.getElementById("demo4").innerHTML = d;
+	    document.getElementById("squarefeet").innerHTML = d;
 
 		console.log("PRICE: " 	    + price_standard);
 		console.log("BEDROOMS: "    + bedrooms_standard);
@@ -106,10 +112,15 @@ $(document).ready(function(){
 													  square_ft_standard,
 													  userPropNoPrice);
 
-		document.getElementById("demo5").innerHTML = Math.round(userPropWithPrice);
+		document.getElementById("price").innerHTML = '$' + Math.round(userPropWithPrice) + " ";
 
-		$('#myModal').modal('show');
-	});
+		$(".results").css("visibility","visible");
+
+  }
+
+	// Determines the price of a home given user inputs
+	// http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_form_elements_index
+
 
 	// SORTS THE ARRAY AND GETS THE MEDIAN
 	function getStandard(){
@@ -305,18 +316,22 @@ function median(values) {
 
     <div class="form-group">
         <div class="col-xs-5 col-xs-offset-1">
-          <button type="button" class="btn btn-default" id="addNewReq" data-toggle='modal' data-target='#results' style="background-color: #71f968;">Submit</button>
-        </div>
-    </div>
-</form>
+<!--           <button type="button" class="btn btn-default" id="addNewReq" data-target="#results" data-toggle="modal" style="background-color: #71f968;">Submit</button> -->
 
+          <button type="button" class="btn btn-default" id="addNewReq" onclick="gofunction()" style="background-color: #71f968;">Submit</button> 
 
+  				</div>
+    		</div>
+		</form>
+	</div>
 </div>
 
 
-    </div>
-
-
+	<div class="results col-xs-12 text-center">
+		<p style="font-size:xx-large"><span class="user_results" id="property"></span> with <span class="user_results" id="bedrooms"></span> bedroom(s) & <span class="user_results" id="bathrooms"></span> bathroom(s) at <span class="user_results" id="squarefeet"></span>sq-ft is valued at: <br><span class="user_results" id="price"></span>(USD)</p>
+	</div>
+					   
+					  
 
 
 <!-- RESULTS Modal -->
