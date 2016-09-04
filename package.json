@@ -1,0 +1,38 @@
+{
+  "name": "rentals-recruitment",
+  "version": "1.0.0",
+  "description": "using data to calculate estimate of property pricing",
+  "main": "start.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonathanraxa/RentalsRecruitment.git"
+  },
+  "keywords": [
+    "property",
+    "housing",
+    "price"
+  ],
+  "author": "Jonathan Raxa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonathanraxa/RentalsRecruitment/issues"
+  },
+  "homepage": "https://github.com/jonathanraxa/RentalsRecruitment#readme",
+  "devDependencies": {
+    "chai": "^3.5.0"
+  },
+  "dependencies": {
+    "chai": "^3.5.0",
+    "express": "^4.14.0",
+    "fast-csv": "^2.1.0",
+    "jquery": "^3.1.0",
+    "mocha": "^3.0.2",
+    "ya-csv": "^0.9.4"
+  }
+}
