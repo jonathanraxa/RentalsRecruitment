@@ -4,10 +4,10 @@
 	the algorithm 
 */
 
-var price 	= [];
-var bathrooms = [];
+var price 		= [];
+var bathrooms   = [];
 var bedrooms 	= [];
-var square_ft = [];
+var square_ft 	= [];
 
 // The median values of each category
 var price_standard;
@@ -15,7 +15,7 @@ var bathrooms_standard;
 var bedrooms_standard;
 var square_ft_standard;
 
-
+// FETCHES ALL DATA
 var data_fetcher = {
 	fetch_csv_file: function () {
 		$.ajax({
@@ -26,7 +26,6 @@ var data_fetcher = {
 		    	data_fetcher.parse_file(data);
 	  		}
 		})
-		
 	},
 
 	parse_file: function(fileContent){
@@ -84,8 +83,6 @@ var data_fetcher = {
 	  	 square_ft_standard = data_fetcher.get_median(square_ft);
 
 	  	 return [price_standard, bedrooms_standard,bathroom_standard,square_ft_standard];
-
-	
 	},
 
 	set_price_standard: function () {

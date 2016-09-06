@@ -65,43 +65,30 @@ var app = {
       $("#" + id).html(input.value);
     });
 
-    var userPropNoPrice = calculations.ratio_standard(parseInt($row[1].value),
-                                                      parseInt($row[2].value),
-                                                      parseInt($row[3].value));
+    var user_price = calculations.price_calculation(parseInt($row[1].value),
+                                                    parseInt($row[2].value),
+                                                    parseInt($row[3].value));
 
-    var userPropWithPrice = calculations.price_calculation(price_standard,
-                                                           bedrooms_standard,
-                                                           bathroom_standard, 
-                                                           square_ft_standard,
-                                                           userPropNoPrice);
-
-    $("#price-"+index).html('$' + Math.round(userPropWithPrice) + " ");
+    $("#price-"+index).html('$' + Math.round(user_price) + " ");
 
   }
 }
 
 
-// DISPLAY HTML GIVEN ARGUMENT VALUES
+// DISPLAY VALUES GIVEN ARGUMENT VALUES FOR QUESTION ONE
 function displayPropertyPrice(){
 
   var propertyValNoPrice1 = calculations.price_calculation(2,2,1250);
-  var property_price1 = calculations.price_calculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice1);
-  $( "#price1" ).append("$" + Math.round(property_price1) );
+  $( "#price1" ).append("$" + Math.round(propertyValNoPrice1) );
 
-  var propertyValNoPrice2 = calculations.ratio_standard(1,1,750);
-  var property_price2 = calculations.price_calculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice2);
-  $( "#price2" ).append("$" + Math.round(property_price2) );
+  var propertyValNoPrice2 = calculations.price_calculation(1,1,750);
+  $( "#price2" ).append("$" + Math.round(propertyValNoPrice2) );
 
-  var propertyValNoPrice3 = calculations.ratio_standard(3,1,1500);
-  var property_price3 = calculations.price_calculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice3);
-  $( "#price3" ).append("$" + Math.round(property_price3) );
+  var propertyValNoPrice3 = calculations.price_calculation(3,1,1500);
+  $( "#price3" ).append("$" + Math.round(propertyValNoPrice3) );
 
-  var propertyValNoPrice4 = calculations.ratio_standard(4,2,2250);
-  var property_price4 = calculations.price_calculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice4);
-  $( "#price4" ).append("$" + Math.round(property_price4) );
-
-  return [property_price1,property_price2,property_price3, property_price4];
-
+  var propertyValNoPrice4 = calculations.price_calculation(4,2,2250);
+  $( "#price4" ).append("$" + Math.round(propertyValNoPrice4) );
 };
 
 
