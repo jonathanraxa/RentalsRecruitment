@@ -1,17 +1,10 @@
+var propertyIndex = 0;
+var data;
 
 $(document).ready(function(){
 
-$.ajax({
-    type: "GET",
-    url: "/data/challenge_data.csv",
-    data: {},
-    success: function(data){
-      handleFileSelect(data); 
-    }
-  });
-
- //$("#csv-file").change(handleFileSelect);
-
+ // FETCH CSV DATA TO USE FOR ALGORITHM
+ data_fetcher.fetch_csv_file();
 
     $('#propertyForm')
         // Add button click handler
@@ -51,162 +44,68 @@ $.ajax({
         });
 });
 
+// POPULATES THE RESULTS MODAL
+var app = {
+  populate: function(){
+    for(i = 0; i <= propertyIndex; i++) {
+      this.write_results(i);
+    }
+  $("#results").modal("show");
+  
+  },
 
-  var data;
-  var price = [];
-  var bathrooms = [];
-  var bedrooms = [];
-  var square_ft = [];
-
-  // The median values of each category
-  var price_standard;
-  var bathrooms_standard;
-  var bedrooms_standard;
-  var square_ft_standard;
- 
-  var propertyIndex = 0;
-
-
-  // handles the uploaded CSV file
-  // TODO: Find a way to keep the file on the server instead 
-  // 	   without having to upload it!
-  function handleFileSelect(fileContent) {
-    //var file = evt.target.files[0];
-    Papa.parse(fileContent, {
-      header: true,
-      dynamicTyping: true,
-      complete: function(data) {
-                
-        // console.log(data); 
-        var data_size = data.data.length;
-        var i;
-        for(i = 0; i < data_size; i++){
-        	price[i] 	 = data.data[i].price;
-        	bathrooms[i] = data.data[i].bathrooms;
-        	bedrooms[i]  = data.data[i].bedrooms;
-        	square_ft[i] = data.data[i]['square-foot'];
-        }
-        setStandard();
-        displayPropertyPrice();
-      }
-    });
-  }
-
-
-// populates the results div tag
-function populate(){
-	for(i = 0; i <= propertyIndex; i++){
-		writeResults(i);
-	}
-}
-
-// appends all the results from given arguments
-function writeResults(index){
-
-$("#results").append("<p style='font-size:xx-large'><span class='user_results' style='font-size: 45px;' id='name-"+index+"'></span> with <span class='user_results' id='bedrooms-"+index+"'></span> bedroom(s) & <span class='user_results' id='bathrooms-"+index+"'></span> bathroom(s) at <span class='user_results' id='squarefeet-"+index+"'></span>sq-ft is valued at: <br><span class='user_results' style='font-size: 45px;' id='price-"+index+"'></span>(USD)</p>");
-
+  // CALCULATES AND WRITES USER RESULTS TO RESULTS MODAL
+  write_results: function (index) {
     var $row = $('.row-'+index);
+
+    $("#results_body").append("<p style='font-size:font-size:15px;'><span class='user_results' style='font-size: 25px;' id='name-"+index+"'></span><br /> with <span class='user_results' id='bedrooms-"+index+"'></span> bedroom(s) & <span class='user_results' id='bathrooms-"+index+"'></span> bathroom(s) at <span class='user_results' id='squarefeet-"+index+"'></span>sq-ft is valued at: <br><span class='user_results' style='font-size: 25px;' id='price-"+index+"'></span>(USD)</p><hr>");
 
     $row.each(function(i, input) {
       var id = input.name + '-' + index;
-		  $("#" + id).html(input.value);
+      $("#" + id).html(input.value);
     });
 
-		var userPropNoPrice = propertyBedBathPerSqCalc(parseInt($row[1].value),parseInt($row[2].value),parseInt($row[3].value));
+    var userPropNoPrice = calculations.ratio_standard(parseInt($row[1].value),
+                                                      parseInt($row[2].value),
+                                                      parseInt($row[3].value));
 
-		var userPropWithPrice = propertyPriceCalculation(price_standard,
-													  bedrooms_standard,
-													  bathroom_standard, 
-													  square_ft_standard,
-													  userPropNoPrice);
+    var userPropWithPrice = calculations.price_calculation(price_standard,
+                                                           bedrooms_standard,
+                                                           bathroom_standard, 
+                                                           square_ft_standard,
+                                                           userPropNoPrice);
 
-		$("#price-"+index).html('$' + Math.round(userPropWithPrice) + " ");
+    $("#price-"+index).html('$' + Math.round(userPropWithPrice) + " ");
 
   }
-
-	// Determines the price of a home given user inputs
-	// http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_form_elements_index
-	// SORTS THE ARRAY AND GETS THE MEDIAN
-	function getStandard(){
-
-	  	 price.sort(function(a, b){return a-b});
-	  	 bathrooms.sort(function(a, b){return a-b});
-	  	 bedrooms.sort(function(a, b){return a-b});
-	  	 square_ft.sort(function(a, b){return a-b});
-
-	  	 // set the standards!
-	  	 price_standard     = median(price);
-	  	 bedrooms_standard  = median(bedrooms);
-	  	 bathroom_standard  = median(bathrooms);
-	  	 square_ft_standard = median(square_ft);
-
-	  	 return [price_standard, bedrooms_standard,bathroom_standard,square_ft_standard];
-
-	}
-
-	// TAKES THE DATA AND SETS A STANDARD FOR THE ALGORITHM TO USE
-	function setStandard(){
-		var data = getStandard();
-		price_standard = data[0];
-		bedrooms_standard = data[1];
-		bathroom_standard = data[2];
-		square_ft_standard = data[3];
-	}
-
-  // DISPLAY GIVEN ARGUMENT VALUES
-  function displayPropertyPrice(){
-
-  	 var propertyValNoPrice1 = propertyBedBathPerSqCalc(2,2,1250);
-  	 var property_price1 = propertyPriceCalculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice1);
-  	 $( "#price1" ).append("$" + Math.round(property_price1) );
+}
 
 
-  	 var propertyValNoPrice2 = propertyBedBathPerSqCalc(1,1,750);
-  	 var property_price2 = propertyPriceCalculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice2);
-  	 $( "#price2" ).append("$" + Math.round(property_price2) );
+// DISPLAY HTML GIVEN ARGUMENT VALUES
+function displayPropertyPrice(){
 
-  	 
- 	 var propertyValNoPrice3 = propertyBedBathPerSqCalc(3,1,1500);
-  	 var property_price3 = propertyPriceCalculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice3);
-  	 $( "#price3" ).append("$" + Math.round(property_price3) );
+  var propertyValNoPrice1 = calculations.price_calculation(2,2,1250);
+  var property_price1 = calculations.price_calculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice1);
+  $( "#price1" ).append("$" + Math.round(property_price1) );
 
- 	 var propertyValNoPrice4 = propertyBedBathPerSqCalc(4,2,2250);
-  	 var property_price4 = propertyPriceCalculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice4);
-  	 $( "#price4" ).append("$" + Math.round(property_price4) );
+  var propertyValNoPrice2 = calculations.ratio_standard(1,1,750);
+  var property_price2 = calculations.price_calculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice2);
+  $( "#price2" ).append("$" + Math.round(property_price2) );
 
+  var propertyValNoPrice3 = calculations.ratio_standard(3,1,1500);
+  var property_price3 = calculations.price_calculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice3);
+  $( "#price3" ).append("$" + Math.round(property_price3) );
 
+  var propertyValNoPrice4 = calculations.ratio_standard(4,2,2250);
+  var property_price4 = calculations.price_calculation(price_standard, bedrooms_standard, bathroom_standard, square_ft_standard,propertyValNoPrice4);
+  $( "#price4" ).append("$" + Math.round(property_price4) );
 
-  };
+  return [property_price1,property_price2,property_price3, property_price4];
 
-  // DETERMINES SET RATIO TO USE FOR ALGORITHM
-  function propertyBedBathPerSqCalc(bed,bath,sq)
-  {
-
-  	return  sq/[bed + bath];
-  };
-
-  // ALGORITHM TO COMPUTE PRICE GIVEN BED/BATH/SQ-FT
-  function propertyPriceCalculation(price,bed,bath,sq,otherProp)
-  {
-  	// add bathroom and bedrooms
-  	// divide the square-feet by # of ba/br total
-  	var bed_bath_sq_total = sq/[bed + bath];
-
-  	// calculate ratio b*x = a*c
-  	var determined_price = [price*otherProp]/bed_bath_sq_total;
-
-  	return determined_price;
-  };
-
-/* Didn't want to reinvent the wheel!
-   CODE Snippet taken from: https://gist.github.com/caseyjustus/1166258 
-*/
-function median(values) {
-
-    values.sort( function(a,b) {return a - b;} );
-    var half = Math.floor(values.length/2);
-    if(values.length % 2)
-        return values[half];
-    else
-        return (values[half-1] + values[half]) / 2.0;
 };
+
+
+// RELOADS THE PAGE UPON SEEING RESULTS OF MODAL
+function page_reload(){
+  location.reload();
+}

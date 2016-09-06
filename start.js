@@ -12,15 +12,12 @@
 // 		console.log('Read finished');
 // 	});
  
-
-
 var express = require('express'),
 	app		= express();
 
 app.get('/', function (req,res){
 	res.sendFile(__dirname + '/index.html');
 });
-
 
 app.use('/js', express.static(__dirname + '/js/'));
 app.use('/css', express.static(__dirname + '/css/'));
