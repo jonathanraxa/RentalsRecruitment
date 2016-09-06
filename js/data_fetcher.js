@@ -46,6 +46,7 @@ var data_fetcher = {
 	        	bedrooms[i]  = data.data[i].bedrooms;
 	        	square_ft[i] = data.data[i]['square-foot'];
 	        }
+	        data_fetcher.get_price_standard();
 	        data_fetcher.set_price_standard();
 	        displayPropertyPrice();
 	      
@@ -81,7 +82,7 @@ var data_fetcher = {
 	  	 bedrooms_standard  = data_fetcher.get_median(bedrooms);
 	  	 bathroom_standard  = data_fetcher.get_median(bathrooms);
 	  	 square_ft_standard = data_fetcher.get_median(square_ft);
-
+	  	 
 	  	 return [price_standard, bedrooms_standard,bathroom_standard,square_ft_standard];
 	},
 
@@ -91,6 +92,12 @@ var data_fetcher = {
 		bedrooms_standard  = data[1];
 		bathroom_standard  = data[2];
 		square_ft_standard = data[3];
+
+		 calculations.price_ratio(parseInt(bedrooms_standard), 
+	  	 							parseInt(bathroom_standard),
+	  	 							parseInt(square_ft_standard),
+	  	 							parseInt(price_standard));
+		//calculations.price_ratio(bedrooms_standard,bathroom_standard,square_ft_standard,price_standard);
 	},
 
 

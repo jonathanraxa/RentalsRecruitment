@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +10,7 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -17,280 +18,208 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 
 
- <!-- CUSTOM JAVASCRIPT -->
- <!-- HANDLE DATA -->
+    <!-- CUSTOM JAVASCRIPT -->
 
- <script src="js/main.js"></script>
+    <!-- HANDLE DATA -->
+    <script src="js/main.js"></script>
+
+    <!-- THIRD PARTY PARSING LIBRARY -->
+    <script src="js/PapaParse-4.1.2/papaparse.min.js"></script>
+
+    <!-- GET DATA AND PARSE DATA -->
+    <script src="js/data_fetcher.js"></script>
+
+    <!-- CALCULATE DATA WITH ALGORITHM -->
+    <script src="js/calculations.js"></script>
 
 
- <!-- THIRD PARTY PARSING LIBRARY -->
- <script src="js/PapaParse-4.1.2/papaparse.min.js"></script>
+    <!-- CUSTOM CSS -->
+    <link href="css/custom.css" rel="stylesheet">
 
- <!-- GET DATA AND PARSE DATA -->
- <script src="js/data_fetcher.js"></script>
+</head>
 
- <!-- CALCULATE DATA WITH ALGORITHM -->
- <script src="js/calculations.js"></script>
-
-
-<!-- CUSTOM CSS -->
-<style type="text/css">
-	
-	html{
-		font-family: PostGrotesk,OpenSans,sans-serif;
-	}
-
-	body{
-		/*Image: http://www.aptmags.com/wp-content/uploads/2014/	01/2014-Modern-Apartment-Design-Living-Room-and-Kitchen-Set.jpg
-		*/
-		/*background-image:url('css/images/living_room.jpg');    
-		background-position: center; 
-		background-repeat: no-repeat;
-		background-attachment: fixed;*/
-	}
-
-	body:after {
-	    content : "";
-	    display: block;
-	    position: absolute;
-	    top: 0;
-	    left: 0;
-		background-image:url('css/images/living_room.jpg');    
-	    width: 100%;
-	    height: 100%;
-	    opacity : 0.7;
-	    z-index: -1;
-	}
-	body img{
-		    opacity: 0.6;
-	}
-	.navbar-default .navbar-nav>li>a {
-	    color: #f3eded;
-	}
-		#addNewReq{
-			padding: 20px 30px 20px 30px;
-		    font-size: 25px;
-		    background-color: #f74a27;
-		    color: white;
-		    border-radius: 15px;
-		    border-color: #249432;
-		}
-
-	form {
-		margin-top: 10%;
-	 
-	}
-
-	label {
-	    font-size: 15px;
-	    color: #000000;
-	    background: rgba(255, 255, 255, 0.52);
-	}
-	h1{
-		    color: #000000;
-	    font-size: 50px;
-	    text-shadow: 0 2px 0 rgba(0,0,0,.1);
-	}
-	.navbar-default .navbar-brand {
-	    color: #fff;
-	}
-
-	.prices{
-		font-size: 20px;
-	    font-weight: bold;
-	    color: #409c67;
-	}
-	.user_results {
-	    font-weight: bold;
-	    color: #04843a;
-	}
-
-</style>
-  </head>
-  <body >
-<div class="container">
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #20c063;">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<body>
+    <div class="container">
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #20c063;">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand nav-bar" href="#">Property Calculator</a>
+                    <a class="navbar-brand nav-bar" href="#">Property Calculator</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#" class="nav-bar" data-toggle="modal" data-target="#about">About</a>
+                        </li>
+
+                        <li><a href="#" class="nav-bar" data-toggle="modal" data-target="#algorithm">Algorithm Explanation</a>
+                        </li>
+                    </ul>
+                    </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="https://github.com/jonathanraxa/RentalsRecruitment" target="_blank">Github</a></li>
+                        <li><a href="https://docs.google.com/document/d/1Ictp6gFmQnO-RYF8GtYT0pyoqiup-uTW4PI6fwSw6Wo/edit?usp=sharing" target="_blank">Documentation</a></li>
+
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </nav>
+
+        <div class="row" style="margin-top:100px;">
+            <form id="propertyForm" method="post" class="form-horizontal">
+                <h1 class="text-center">Calculate your rent.</h1>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-3 col-md-offset-1 text-center">
+                        <input type="text" class="form-control row-0" name="name" placeholder="Property Name ie. Driftwood Apt" />
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <input type="number" class="form-control row-0" name="bedrooms" placeholder="# Bedroom(s) ie. 2" />
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <input type="number" class="form-control row-0" name="bathrooms" placeholder="# Bathroom(s) ie. 1" />
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <input type="number" class="form-control row-0" name="squarefeet" placeholder="Sq-Ft ie. 1000" />
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
+                    </div>
+
+                </div>
+
+                <!-- The template for adding new field -->
+                <div class="form-group hide" id="bookTemplate">
+                    <div class="col-md-3 col-md-offset-1">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="ie. Driftwood Apt" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control" name="bedrooms" placeholder="ie. 2" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control" name="bathrooms" placeholder="ie. 1" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control" name="squarefeet" placeholder="ie. 1000" />
+                    </div>
+
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+
+                    <button type="button" class="btn btn-xl center-block" id="addNewReq" onclick="app.populate()">Calculate!</button>
+
+                </div>
+            </form>
+
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-             <li><a href="#"
-               class="nav-bar" 
-			   data-toggle="modal" 
-			   data-target="#about">About</a>
-			</li>
-
-	        <li><a href="#" 
-	           class="nav-bar" 
-			   data-toggle="modal" 
-			   data-target="#algorithm"
-			   >Algorithm Explanation</a>
-			</li>
-              </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/jonathanraxa/RentalsRecruitment" target="_blank">Github</a></li>
-            <li><a href="https://docs.google.com/document/d/1Ictp6gFmQnO-RYF8GtYT0pyoqiup-uTW4PI6fwSw6Wo/edit?usp=sharing" target="_blank">Documentation</a></li>
-          
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="row" style="margin-top:100px;">
-
-	
-  <div class="intro-heading">
-
-<form id="propertyForm" method="post" class="form-horizontal">
-		<h1 class="text-center">Calculate your rent.</h1>
-<br />
-    <div class="form-group">
-		
-
-        <div class="col-md-3 col-md-offset-1 text-center">
-            <input type="text" class="form-control row-0" name="name" placeholder="Property Name ie. Driftwood Apt" />
-        </div>
-        <div class="col-md-2 text-center">
-            <input type="number" class="form-control row-0" name="bedrooms" placeholder="# Bedroom(s) ie. 2" />
-        </div>
-        <div class="col-md-2 text-center">
-            <input type="number" class="form-control row-0" name="bathrooms" placeholder="# Bathroom(s) ie. 1" />
-        </div>
-        <div class="col-md-2 text-center">
-            <input type="number" class="form-control row-0" name="squarefeet" placeholder="Sq-Ft ie. 1000" />
-        </div>
-
-        <div class="col-md-2">
-    
-            <button type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
-        </div>
-
     </div>
 
-    <!-- The template for adding new field -->
-    <div class="form-group hide" id="bookTemplate">
-        <div class="col-md-3 col-md-offset-1">
-            <input type="text" class="form-control" name="name" id="name" placeholder="ie. Driftwood Apt" />
-        </div>
-        <div class="col-md-2">
-            <input type="number" class="form-control" name="bedrooms" placeholder="ie. 2" />
-        </div>
-        <div class="col-md-2">
-            <input type="number" class="form-control" name="bathrooms" placeholder="ie. 1" />
-        </div>
-        <div class="col-md-2">
-            <input type="number" class="form-control" name="squarefeet" placeholder="ie. 1000" />
-        </div>
 
-        <div class="col-md-1">
-            <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+    <!-- RESULTS Modal -->
+    <div class="modal fade" id="results" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title" id="myModalLabel">Your Property Price(s)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="results text-center" id="results_body">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="page_reload()">OKAY</button>
+                </div>
+            </div>
         </div>
     </div>
-<br />
-    <div class="form-group">
-
-          <button type="button" class="btn btn-xl center-block" id="addNewReq" onclick="app.populate()">Calculate!</button> 
-
-    		</div>
-		</form>
-	</div>
-</div>
-</div>
 
 
-<!-- RESULTS Modal -->
- <div class="modal fade" id="results" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-            <h4 class="modal-title" id="myModalLabel">Your Property Price(s)</h4>
+    <!-- ABOUT Modal -->
+    <div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title" id="myModalLabel">About Property Calculator</h4>
+                </div>
+                <div class="modal-body">
+                    <p><i>Property Calculator</i> is an online application tool that allows you to calculate the best rent price based off 1000 entries of property pricing data. Simply enter in your number of bedrooms, bathrooms, and the approximente square footage of your property and Property Calculator will use its interal algorithm to find the best price for you!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body">
-		        <div class="results text-center" id="results_body">
-				
-				</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="page_reload()">OKAY</button>
         </div>
     </div>
-  </div>
-</div>
 
+    <!-- ALGORITHM MODAL -->
+    <div class="modal fade" id="algorithm" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title" id="myModalLabel">Algorithm Explanation</h4>
+                </div>
+                <div class="modal-body">
 
-<!-- ABOUT Modal -->
- <div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-            <h4 class="modal-title" id="myModalLabel">About Property Calculator</h4>
+                    <i>PRICING</i> determined by property calculation with 1000 properties <br>
+                    <br />
+                    <p><strong>Casa Maria</strong> - 2bd, 2ba, 1250 square feet: PRICE --&gt; <span class="prices" id="price1"></span></p>
+                    <p><strong>Westwood Towers</strong> - Studio, 1ba, 750 square feet: PRICE --&gt; <span class="prices" id="price2"></span></p>
+                    <p><strong>Bella Fortuna</strong> - 3bd, 1ba, 1500 square feet: PRICE --&gt; <span class="prices" id="price3"></span></p>
+                    <p><strong>Palace Apartments</strong> - 4bd, 2ba, 2250 square feet: PRICE --&gt; <span class="prices" id="price4"></span></p>
+                    <hr>
+                    <ol>
+                        <li>Parse CSV data and convert into JSON data structure for easier reading.</li> 
+						<li>Sort the Bathrooms, Bedrooms, Square Feet, and Prices.</li>
+
+						<li>Retrieve the median for each category.</li>
+
+						<li>Divide the price by the median sq-ft result which determines a base price per square foot.</li>
+
+						<li>Determine the ratio for bathroom to square feet and bedroom to square feet.</li>
+
+						<li>Calculate the pricing for 2 bedrooms, 1 bathroom for 1000 sq-ft under $1892 (these are the set
+						standards given to us by the median). When adding the total price together, it should come to about $1892.</li>
+
+						<li>Use the determined prices from step 6 to calculate the rest of the properties.</li>
+                    </ol>
+
+					<hr>
+                    <p>For more information, please refer to the source code here: <a href="https://github.com/jonathanraxa/RentalsRecruitment">Property Calculator Github</a></p>
+                   
+                   <p>OR</p>
+                    <p>Visit the following URL for the documentation: <a href="https://docs.google.com/document/d/1Ictp6gFmQnO-RYF8GtYT0pyoqiup-uTW4PI6fwSw6Wo/edit?usp=sharing">DOCUMENTATION</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <p><i>Property Calculator</i> is an online application that allows you to calculate the
-                best rent price based off 1000  pieces of data.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
     </div>
-  </div>
-</div>
-
-<!-- ALGORITHM MODAL -->
- <div class="modal fade" id="algorithm" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-            <h4 class="modal-title" id="myModalLabel">Algorithm Explanation</h4>
-            </div>
-            <div class="modal-body">
-
-					<i>PRICING</i> determined by property calculation with 1000 properties <br>
-					<br />
-						<p><strong>Casa Maria</strong> - 2bd, 2ba, 1250 square feet: PRICE --&gt; 		 <span class="prices" id="price1"></span></p>
-						<p><strong>Westwood Towers</strong> - Studio, 1ba, 750 square feet: PRICE --&gt; <span class="prices" id="price2"></span></p>
-						<p><strong>Bella Fortuna</strong> - 3bd, 1ba, 1500 square feet: PRICE --&gt; 	 <span class="prices" id="price3"></span></p>
-						<p><strong>Palace Apartments</strong> - 4bd, 2ba, 2250 square feet: PRICE --&gt; <span class="prices" id="price4"></span></p>
-					<br />
-
-					<p></p>
-					<ul>
-						<li></li>
-						<li></li>
-						<li></li>
-					</ul>
-
-					<p>For more information, please refer to the source code here: <a href="#">Property Calculator Github</a></p>
-					OR
-					<p>Visit the following URL for the documentation: <a href="#">DOCUMENTATION</a></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-    </div>
-  </div>
-</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
-  </body>
+</body>
+
 </html>

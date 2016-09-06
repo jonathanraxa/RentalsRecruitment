@@ -77,7 +77,7 @@ var app = {
 
 // DISPLAY VALUES GIVEN ARGUMENT VALUES FOR QUESTION ONE
 function displayPropertyPrice(){
-
+  
   var propertyValNoPrice1 = calculations.price_calculation(2,2,1250);
   $( "#price1" ).append("$" + Math.round(propertyValNoPrice1) );
 
